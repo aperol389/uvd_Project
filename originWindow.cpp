@@ -25,7 +25,7 @@ int originWindow::init(int width, int height)
         SDL_WINDOWPOS_UNDEFINED,
         this->win_width,
         this->win_height,
-        SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED);
+        SDL_WINDOW_OPENGL);
     if (this->sdlWindow == NULL)
     {
         SDL_Log("create origin window failed, error info: %s", SDL_GetError());

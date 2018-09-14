@@ -55,7 +55,7 @@ int uvdClient::drawCropFrame()
     int left, top, right, bottom;
     memset(this->pCropFrameBuffer, 0x00, VIDEO_FRAME_SIZE_RGBA);
     
-    if (this->cropPosition[0] != 0)
+    if (this->cropPosition[3] != 0)
     {
         left = this->cropPosition[0];
         top = this->cropPosition[1];
@@ -66,7 +66,7 @@ int uvdClient::drawCropFrame()
         {
             for (int k = left; k < right; k++)
             {
-                if (k - left < 2 || right - k < 2 || j - top < 2 || bottom - j < 2)
+                if (k - left < 4 || right - k < 4 || j - top < 4 || bottom - j < 4)
                 {
                     this->pCropFrameBuffer[(j * PIXEL_W + k) * 4 + 0] = 0xff;
                     this->pCropFrameBuffer[(j * PIXEL_W + k) * 4 + 1] = 0xff;
@@ -475,9 +475,25 @@ int uvdClient::start(char **argv)
                     this->pAudioFrameBuffer,
                     this->pCropFrameBuffer
                     );
+                this->myDistortionWindow.handleEvent(
+                    event,
+                    this->pVideoFrameBuffer,
+                    this->pRulerFrameBufferRGBA,
+                    this->pFaceFrameBuffer,
+                    this->pAudioFrameBuffer,
+                    this->pCropFrameBuffer
+                    );
                 break;
 
                 case 1:
+                this->myOriginWindow.handleEvent(
+                    event, 
+                    this->pVideoFrameBuffer,
+                    this->pRulerFrameBufferRGBA,
+                    this->pFaceFrameBuffer,
+                    this->pAudioFrameBuffer,
+                    this->pCropFrameBuffer
+                    );
                 this->myDistortionWindow.handleEvent(
                     event,
                     this->pVideoFrameBuffer,
