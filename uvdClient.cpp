@@ -86,9 +86,9 @@ int uvdClient::drawAudioFrame()
     memset(this->pAudioFrameBufferRGB, 0x00, VIDEO_FRAME_SIZE_RGB);
     memset(this->pAudioFrameBuffer, 0x00, VIDEO_FRAME_SIZE_RGBA);
     
-    this->audioPosition = 500;
+    // this->audioPosition = 500;
 
-    gDistortionPlayer.DistortXLine(this->pAudioFrameBufferRGB, this->audioPosition, 4, 0xffff00ff);
+    gDistortionPlayer.DistortXLine(this->pAudioFrameBufferRGB, this->audioPosition * 3 / 2, 4, 0xffff00ff);
 
     for (int i = 0; i < PIXEL_W; i++)
     {
@@ -445,7 +445,9 @@ int uvdClient::start(char **argv)
     this->myDistortionWindow.init(PIXEL_W, PIXEL_H);
 
     this->drawRulerFrame();
-    this->drawAudioFrame();
+    // unsigned long tick1 = gDistortionPlayer.GetTickCount();
+    // this->drawAudioFrame();
+    // SDL_Log("audio draw cost time: %d", gDistortionPlayer.GetTickCount() - tick1);
 
     SDL_Thread *video_socket_thread = SDL_CreateThread(this->getVideoFrameThread, NULL, this);
     SDL_Thread *face_socket_thread = SDL_CreateThread(this->getFaceFrameThread, NULL, this);
@@ -453,6 +455,9 @@ int uvdClient::start(char **argv)
     SDL_Thread *crop_socket_thread = SDL_CreateThread(this->getCropFrameThread, NULL, this);
 
     SDL_Event event;
+
+    // event.type = REFRESH_EVENT;
+    // SDL_PushEvent(&event);
 
     while(1)
     {
