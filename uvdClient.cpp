@@ -88,6 +88,7 @@ int uvdClient::drawAudioFrame()
     
     // this->audioPosition = 500;
 
+/*
     gDistortionPlayer.DistortXLine(this->pAudioFrameBufferRGB, this->audioPosition * 3 / 2, 4, 0xffff00ff);
 
     for (int i = 0; i < PIXEL_W; i++)
@@ -107,6 +108,24 @@ int uvdClient::drawAudioFrame()
             this->pAudioFrameBuffer[(j * PIXEL_W + i) * 4 + 1] = this->pAudioFrameBufferRGB[(j * PIXEL_W + i) * 3 + 0];
             this->pAudioFrameBuffer[(j * PIXEL_W + i) * 4 + 2] = this->pAudioFrameBufferRGB[(j * PIXEL_W + i) * 3 + 1];
             this->pAudioFrameBuffer[(j * PIXEL_W + i) * 4 + 3] = this->pAudioFrameBufferRGB[(j * PIXEL_W + i) * 3 + 2];
+        }
+    }
+    */
+
+    if (this->audioPosition < 3 || this->audioPosition > 1280)
+    {
+        SDL_Log("Audio Position < 3 or > 1280");
+        return -1;
+    }
+
+    for (int i=(this->audioPosition - 2); i<this->audioPosition + 2; i++)
+    {
+        for (int j=0; j<PIXEL_H; j++)
+        {
+            this->pAudioFrameBuffer[(j * PIXEL_W + i) * 4 + 0] = 0x7f;
+            this->pAudioFrameBuffer[(j * PIXEL_W + i) * 4 + 1] = 0xff;
+            this->pAudioFrameBuffer[(j * PIXEL_W + i) * 4 + 2] = 0xff;
+            this->pAudioFrameBuffer[(j * PIXEL_W + i) * 4 + 3] = 0x00;
         }
     }
 
